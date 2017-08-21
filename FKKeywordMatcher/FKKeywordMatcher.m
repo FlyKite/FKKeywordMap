@@ -56,39 +56,12 @@
     }
 }
 
-- (BOOL)saveTo:(NSString *)path {
-    BOOL isDirectory = false;
-    [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
-    if (isDirectory) {
-        NSLog(@"The path must be a file path, not a directory path.");
-        return NO;
-    } else {
-        return [NSKeyedArchiver archiveRootObject:self toFile:path];
-    }
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super init]) {
-        self.subMaps = [aDecoder decodeObjectForKey:@"subMaps"];
-        self.value = (UInt8)[aDecoder decodeIntForKey:@"value"];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.subMaps forKey:@"subMaps"];
-    [aCoder encodeInt:self.value forKey:@"value"];
-}
-@end
-
-@implementation FKKeywordMatcher
-
-- (BOOL)match:(NSString *)text withKeywordMap:(KeywordMap *)keywordMap {
+- (BOOL)match:(NSString *)text {
     NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
     const UInt8 *bytes = data.bytes;
     for (NSInteger i = 0; i < data.length; i++) {
         UInt8 byte = bytes[i];
-        KeywordMap *currentMap = keywordMap.subMaps[byte];
+        KeywordMap *currentMap = self.subMaps[byte];
         if ([currentMap isKindOfClass:[KeywordMap class]]) {
             for (NSInteger j = i + 1; j < data.length; j++) {
                 UInt8 byte = bytes[j];
@@ -105,9 +78,20 @@
     return NO;
 }
 
-- (NSArray *)backToArray:(KeywordMap *)keywodMap {
+- (BOOL)saveTo:(NSString *)path {
+    BOOL isDirectory = false;
+    [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
+    if (isDirectory) {
+        NSLog(@"The path must be a file path, not a directory path.");
+        return NO;
+    } else {
+        return [NSKeyedArchiver archiveRootObject:self toFile:path];
+    }
+}
+
+- (NSArray *)keywordArray {
     NSMutableArray *keywordArray = [[NSMutableArray alloc] init];
-    NSMutableArray *mapStack = [[NSMutableArray alloc] initWithObjects:keywodMap, nil];
+    NSMutableArray *mapStack = [[NSMutableArray alloc] initWithObjects:self, nil];
     NSMutableArray *bytesArray = [[NSMutableArray alloc] init];
     while (mapStack.count > 0) {
         KeywordMap *map = mapStack.lastObject;
@@ -145,4 +129,16 @@
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        self.subMaps = [aDecoder decodeObjectForKey:@"subMaps"];
+        self.value = (UInt8)[aDecoder decodeIntForKey:@"value"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.subMaps forKey:@"subMaps"];
+    [aCoder encodeInt:self.value forKey:@"value"];
+}
 @end

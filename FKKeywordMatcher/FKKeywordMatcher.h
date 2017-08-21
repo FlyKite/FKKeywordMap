@@ -27,14 +27,22 @@
 + (KeywordMap *)loadFrom:(NSString *)path;
 
 /**
+ * Returns whether the text contains any keyword in KeywordMap
+ * @param text The text to find keyword
+ * @return The result of match, if text contains a keyword, return YES
+ */
+- (BOOL)match:(NSString *)text;
+
+/**
  * Save KeywordMap to a local file
  * @param path Path of the file
  * @return Result of saving to file
  */
 - (BOOL)saveTo:(NSString *)path;
-@end
 
-@interface FKKeywordMatcher : NSObject
-- (BOOL)match:(NSString *)text withKeywordMap:(KeywordMap *)keywordMap;
-- (NSArray *)backToArray:(KeywordMap *)keywordMap;
+/**
+ * Convert self to an array contains all keywords
+ * @return An array of all keywords
+ */
+- (NSArray *)keywordArray;
 @end

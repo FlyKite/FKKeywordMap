@@ -17,7 +17,6 @@ int main(int argc, const char * argv[]) {
         NSString *path = @"/Users/FlyKite/Desktop/word.plist";
         NSArray *array = [NSDictionary dictionaryWithContentsOfFile:path].allKeys;
         KeywordMap *map = [KeywordMap convert:array];
-        FKKeywordMatcher *matcher = [[FKKeywordMatcher alloc] init];
         
         NSString *text = @"前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大我爱习大大";
         NSTimeInterval time = [[[NSDate alloc] init] timeIntervalSince1970];
@@ -29,7 +28,7 @@ int main(int argc, const char * argv[]) {
         NSLog(@"%lf", [[[NSDate alloc] init] timeIntervalSince1970] - time);
         
         time = [[[NSDate alloc] init] timeIntervalSince1970];
-        if ([matcher match:text withKeywordMap:map]) {
+        if ([map match:text]) {
             NSLog(@"匹配到关键词啦");
         }
         NSLog(@"%lf", [[[NSDate alloc] init] timeIntervalSince1970] - time);
