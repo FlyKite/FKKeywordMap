@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KeywordMap : NSObject
+@interface KeywordMap : NSObject<NSCoding>
 @property (assign, nonatomic) UInt8 value;
 @property (strong, nonatomic) NSMutableArray *subMaps;
+
++ (KeywordMap *)loadFrom:(NSString *)path;
+- (BOOL)saveTo:(NSString *)path;
 @end
 
 @interface FKKeywordMatcher : NSObject

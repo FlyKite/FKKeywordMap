@@ -9,7 +9,43 @@
 #import "FKKeywordMatcher.h"
 
 @implementation KeywordMap
++ (KeywordMap *)loadFrom:(NSString *)path {
+    BOOL isDirectory = false;
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
+    if (isDirectory) {
+        NSLog(@"The path must be a file path, not a directory path.");
+        return nil;
+    } else if (isExist) {
+        return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    } else {
+        NSLog(@"The file is not exists.");
+        return nil;
+    }
+}
 
+- (BOOL)saveTo:(NSString *)path {
+    BOOL isDirectory = false;
+    [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
+    if (isDirectory) {
+        NSLog(@"The path must be a file path, not a directory path.");
+        return NO;
+    } else {
+        return [NSKeyedArchiver archiveRootObject:self toFile:path];
+    }
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        self.subMaps = [aDecoder decodeObjectForKey:@"subMaps"];
+        self.value = (UInt8)[aDecoder decodeIntForKey:@"value"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.subMaps forKey:@"subMaps"];
+    [aCoder encodeInt:self.value forKey:@"value"];
+}
 @end
 
 @implementation FKKeywordMatcher
