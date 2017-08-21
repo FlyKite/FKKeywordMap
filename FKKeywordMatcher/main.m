@@ -16,8 +16,8 @@ int main(int argc, const char * argv[]) {
         
         NSString *path = @"/Users/FlyKite/Desktop/word.plist";
         NSArray *array = [NSDictionary dictionaryWithContentsOfFile:path].allKeys;
+        KeywordMap *map = [KeywordMap convert:array];
         FKKeywordMatcher *matcher = [[FKKeywordMatcher alloc] init];
-        KeywordMap *map = [matcher convert:array];
         
         NSString *text = @"前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大前边是一大堆无用的字习大我爱习大大";
         NSTimeInterval time = [[[NSDate alloc] init] timeIntervalSince1970];

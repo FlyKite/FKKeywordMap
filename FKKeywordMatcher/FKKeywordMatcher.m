@@ -9,6 +9,39 @@
 #import "FKKeywordMatcher.h"
 
 @implementation KeywordMap
+
++ (KeywordMap *)convert:(NSArray *)keywordArray {
+    KeywordMap *keywordMap = [self createEmptyMap];
+    for (NSString *keyword in keywordArray) {
+        NSData *data = [keyword dataUsingEncoding:NSUTF8StringEncoding];
+        const UInt8 *bytes = data.bytes;
+        KeywordMap *currentMap = keywordMap;
+        for (NSInteger i = 0; i < data.length; i++) {
+            UInt8 byte = bytes[i];
+            KeywordMap *map = currentMap.subMaps[byte];
+            if (![map isKindOfClass:[KeywordMap class]]) {
+                map = [self createEmptyMap];
+                map.value = byte;
+                currentMap.subMaps[byte] = map;
+            }
+            if (i == data.length - 1) {
+                map.subMaps[0] = [self createEmptyMap];
+            }
+            currentMap = map;
+        }
+    }
+    return keywordMap;
+}
+
++ (KeywordMap *)createEmptyMap {
+    KeywordMap *keywordMap = [[KeywordMap alloc] init];
+    keywordMap.subMaps = [[NSMutableArray alloc] initWithCapacity:256];
+    for (NSInteger i = 0; i < 256; i++) {
+        [keywordMap.subMaps addObject:@""];
+    }
+    return keywordMap;
+}
+
 + (KeywordMap *)loadFrom:(NSString *)path {
     BOOL isDirectory = false;
     BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
@@ -70,38 +103,6 @@
         }
     }
     return NO;
-}
-
-- (KeywordMap *)convert:(NSArray *)keywordArray {
-    KeywordMap *keywordMap = [self createEmptyMap];
-    for (NSString *keyword in keywordArray) {
-        NSData *data = [keyword dataUsingEncoding:NSUTF8StringEncoding];
-        const UInt8 *bytes = data.bytes;
-        KeywordMap *currentMap = keywordMap;
-        for (NSInteger i = 0; i < data.length; i++) {
-            UInt8 byte = bytes[i];
-            KeywordMap *map = currentMap.subMaps[byte];
-            if (![map isKindOfClass:[KeywordMap class]]) {
-                map = [self createEmptyMap];
-                map.value = byte;
-                currentMap.subMaps[byte] = map;
-            }
-            if (i == data.length - 1) {
-                map.subMaps[0] = [self createEmptyMap];
-            }
-            currentMap = map;
-        }
-    }
-    return keywordMap;
-}
-
-- (KeywordMap *)createEmptyMap {
-    KeywordMap *keywordMap = [[KeywordMap alloc] init];
-    keywordMap.subMaps = [[NSMutableArray alloc] initWithCapacity:256];
-    for (NSInteger i = 0; i < 256; i++) {
-        [keywordMap.subMaps addObject:@""];
-    }
-    return keywordMap;
 }
 
 - (NSArray *)backToArray:(KeywordMap *)keywodMap {
