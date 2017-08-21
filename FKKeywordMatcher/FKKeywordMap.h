@@ -1,6 +1,6 @@
 //
-//  FKKeywordMatcher.h
-//  FKKeywordMatcher
+//  FKKeywordMap.h
+//  FKKeywordMap
 //
 //  Created by 风筝 on 2017/8/14.
 //  Copyright © 2017年 Doge Studio. All rights reserved.
@@ -8,23 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KeywordMap : NSObject<NSCoding>
+@interface FKKeywordMap : NSObject<NSCoding>
 @property (assign, nonatomic) UInt8 value;
 @property (strong, nonatomic) NSMutableArray *subMaps;
 
 /**
- * Convert keyword array to KeywordMap
+ * Convert keyword array to FKKeywordMap
  * @param keywordArray An array contains all keywords
- * @return KeywordMap object
+ * @return FKKeywordMap object
  */
-+ (KeywordMap *)convert:(NSArray *)keywordArray;
++ (FKKeywordMap *)convert:(NSArray *)keywordArray;
 
 /**
- * Load KeywordMap from a local file
+ * Load FKKeywordMap from a local file
  * @param path Path of the file
- * @return KeywordMap object
+ * @return FKKeywordMap object
  */
-+ (KeywordMap *)loadFrom:(NSString *)path;
++ (FKKeywordMap *)loadFrom:(NSString *)path;
 
 /**
  * Returns whether the text contains any keyword in KeywordMap
@@ -34,7 +34,7 @@
 - (BOOL)match:(NSString *)text;
 
 /**
- * Save KeywordMap to a local file
+ * Save FKKeywordMap to a local file
  * @param path Path of the file
  * @return Result of saving to file
  */

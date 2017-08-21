@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A68217FC1F41DDC800EAC3AE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A68217FB1F41DDC800EAC3AE /* main.m */; };
-		A68218041F41DDF200EAC3AE /* FKKeywordMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = A68218031F41DDF200EAC3AE /* FKKeywordMatcher.m */; };
+		A68218041F41DDF200EAC3AE /* FKKeywordMap.m in Sources */ = {isa = PBXBuildFile; fileRef = A68218031F41DDF200EAC3AE /* FKKeywordMap.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +26,8 @@
 /* Begin PBXFileReference section */
 		A68217F81F41DDC800EAC3AE /* FKKeywordMatcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FKKeywordMatcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68217FB1F41DDC800EAC3AE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A68218021F41DDF200EAC3AE /* FKKeywordMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKKeywordMatcher.h; sourceTree = "<group>"; };
-		A68218031F41DDF200EAC3AE /* FKKeywordMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKKeywordMatcher.m; sourceTree = "<group>"; };
+		A68218021F41DDF200EAC3AE /* FKKeywordMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKKeywordMap.h; sourceTree = "<group>"; };
+		A68218031F41DDF200EAC3AE /* FKKeywordMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKKeywordMap.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				A68217FB1F41DDC800EAC3AE /* main.m */,
-				A68218021F41DDF200EAC3AE /* FKKeywordMatcher.h */,
-				A68218031F41DDF200EAC3AE /* FKKeywordMatcher.m */,
+				A68218021F41DDF200EAC3AE /* FKKeywordMap.h */,
+				A68218031F41DDF200EAC3AE /* FKKeywordMap.m */,
 			);
 			path = FKKeywordMatcher;
 			sourceTree = "<group>";
@@ -126,7 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A68217FC1F41DDC800EAC3AE /* main.m in Sources */,
-				A68218041F41DDF200EAC3AE /* FKKeywordMatcher.m in Sources */,
+				A68218041F41DDF200EAC3AE /* FKKeywordMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +257,7 @@
 				A68218011F41DDC800EAC3AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

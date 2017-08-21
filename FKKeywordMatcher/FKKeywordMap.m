@@ -1,25 +1,25 @@
 //
-//  FKKeywordMatcher.m
-//  OCConsoleTest
+//  FKKeywordMap.m
+//  FKKeywordMap
 //
 //  Created by 风筝 on 2017/8/14.
 //  Copyright © 2017年 Doge Studio. All rights reserved.
 //
 
-#import "FKKeywordMatcher.h"
+#import "FKKeywordMap.h"
 
-@implementation KeywordMap
+@implementation FKKeywordMap
 
-+ (KeywordMap *)convert:(NSArray *)keywordArray {
-    KeywordMap *keywordMap = [self createEmptyMap];
++ (FKKeywordMap *)convert:(NSArray *)keywordArray {
+    FKKeywordMap *keywordMap = [self createEmptyMap];
     for (NSString *keyword in keywordArray) {
         NSData *data = [keyword dataUsingEncoding:NSUTF8StringEncoding];
         const UInt8 *bytes = data.bytes;
-        KeywordMap *currentMap = keywordMap;
+        FKKeywordMap *currentMap = keywordMap;
         for (NSInteger i = 0; i < data.length; i++) {
             UInt8 byte = bytes[i];
-            KeywordMap *map = currentMap.subMaps[byte];
-            if (![map isKindOfClass:[KeywordMap class]]) {
+            FKKeywordMap *map = currentMap.subMaps[byte];
+            if (![map isKindOfClass:[FKKeywordMap class]]) {
                 map = [self createEmptyMap];
                 map.value = byte;
                 currentMap.subMaps[byte] = map;
@@ -33,8 +33,8 @@
     return keywordMap;
 }
 
-+ (KeywordMap *)createEmptyMap {
-    KeywordMap *keywordMap = [[KeywordMap alloc] init];
++ (FKKeywordMap *)createEmptyMap {
+    FKKeywordMap *keywordMap = [[FKKeywordMap alloc] init];
     keywordMap.subMaps = [[NSMutableArray alloc] initWithCapacity:256];
     for (NSInteger i = 0; i < 256; i++) {
         [keywordMap.subMaps addObject:@""];
@@ -42,7 +42,7 @@
     return keywordMap;
 }
 
-+ (KeywordMap *)loadFrom:(NSString *)path {
++ (FKKeywordMap *)loadFrom:(NSString *)path {
     BOOL isDirectory = false;
     BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
     if (isDirectory) {
@@ -61,8 +61,8 @@
     const UInt8 *bytes = data.bytes;
     for (NSInteger i = 0; i < data.length; i++) {
         UInt8 byte = bytes[i];
-        KeywordMap *currentMap = self.subMaps[byte];
-        if ([currentMap isKindOfClass:[KeywordMap class]]) {
+        FKKeywordMap *currentMap = self.subMaps[byte];
+        if ([currentMap isKindOfClass:[FKKeywordMap class]]) {
             for (NSInteger j = i + 1; j < data.length; j++) {
                 UInt8 byte = bytes[j];
                 currentMap = currentMap.subMaps[byte];
@@ -94,7 +94,7 @@
     NSMutableArray *mapStack = [[NSMutableArray alloc] initWithObjects:self, nil];
     NSMutableArray *bytesArray = [[NSMutableArray alloc] init];
     while (mapStack.count > 0) {
-        KeywordMap *map = mapStack.lastObject;
+        FKKeywordMap *map = mapStack.lastObject;
         [mapStack removeLastObject];
         if ([map isKindOfClass:[NSString class]]) {
             [bytesArray removeLastObject];
@@ -104,15 +104,15 @@
             [bytesArray addObject:[NSNumber numberWithUnsignedChar:map.value]];
         }
         [mapStack addObject:@""];
-        if ([map.subMaps[0] isKindOfClass:[KeywordMap class]]) {
+        if ([map.subMaps[0] isKindOfClass:[FKKeywordMap class]]) {
             NSString *text = [self convertBytes:bytesArray];
             if (text) {
                 [keywordArray addObject:text];
             }
         }
         for (NSInteger i = 1; i < 256; i++) {
-            KeywordMap *m = map.subMaps[i];
-            if ([m isKindOfClass:[KeywordMap class]]) {
+            FKKeywordMap *m = map.subMaps[i];
+            if ([m isKindOfClass:[FKKeywordMap class]]) {
                 [mapStack addObject:m];
             }
         }
